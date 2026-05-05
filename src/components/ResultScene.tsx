@@ -1,5 +1,5 @@
 import { Github, Quote, RotateCcw, Sparkles } from "lucide-react";
-import type { CSSProperties } from "react";
+import { useRef, useState, type CSSProperties, type MouseEvent, type PointerEvent } from "react";
 import { AnimatedScoreGrid } from "./AnimatedScoreGrid";
 import { CopyResultButton } from "./CopyResultButton";
 import { DimensionRadar } from "./DimensionRadar";
@@ -35,7 +35,18 @@ function hudStyle(spot: ResultSceneHudSpot, delay: number): CSSProperties {
   } as CSSProperties;
 }
 
+function isInteractiveTarget(target: EventTarget | null) {
+  return target instanceof HTMLElement && Boolean(target.closest("a, button, input, textarea, select, label"));
+}
+
+function isMobileResultViewport() {
+  return typeof window !== "undefined" && window.matchMedia("(max-width: 760px)").matches;
+}
+
 export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl, onRestart }: ResultSceneProps) {
+  const [isArtView, setIsArtView] = useState(false);
+  const lastTapAt = useRef(0);
+  const lastToggleAt = useRef(0);
   const isHidden = result.finalResult.type === "hidden";
   const copyText = buildCopyText(alias, copy, language, ui);
   const sceneStyle = {
@@ -53,18 +64,60 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
     "--scene-image": `url("${scene.fullAsset}")`
   } as CSSProperties;
 
+  function toggleArtView() {
+    if (!isMobileResultViewport()) return;
+
+    const now = window.performance.now();
+    if (now - lastToggleAt.current < 280) return;
+
+    lastToggleAt.current = now;
+    setIsArtView((current) => !current);
+  }
+
+  function handleScenePointerUp(event: PointerEvent<HTMLElement>) {
+    if (event.pointerType === "mouse" || !isMobileResultViewport() || isInteractiveTarget(event.target)) return;
+
+    const now = window.performance.now();
+    if (now - lastTapAt.current < 340) {
+      event.preventDefault();
+      lastTapAt.current = 0;
+      toggleArtView();
+      return;
+    }
+
+    lastTapAt.current = now;
+  }
+
+  function handleSceneDoubleClick(event: MouseEvent<HTMLElement>) {
+    if (!isMobileResultViewport() || isInteractiveTarget(event.target)) return;
+
+    event.preventDefault();
+    toggleArtView();
+  }
+
   return (
     <section
       className={`result-scene result-scene--${scene.panelPlacement} result-scene--${scene.motionVariant}${
         isHidden ? " is-hidden-result" : ""
-      }`}
+      }${isArtView ? " is-art-view" : ""}`}
       style={sceneStyle}
+      onPointerUp={handleScenePointerUp}
+      onDoubleClick={handleSceneDoubleClick}
     >
       <div className="result-scene-backdrop" aria-hidden="true" />
       <div className="result-scene-main-art" aria-hidden="true">
         <img src={scene.fullAsset} alt="" />
       </div>
       <div className="result-scene-vignette" aria-hidden="true" />
+      <button
+        className="art-mode-hint"
+        type="button"
+        onClick={toggleArtView}
+        aria-pressed={isArtView}
+        aria-label={ui.artModeA11y}
+      >
+        {isArtView ? ui.artModeExit : ui.artModeHint}
+      </button>
       {isHidden && (
         <div className="hidden-unlock-banner" aria-label={ui.hiddenUnlocked}>
           <Sparkles aria-hidden="true" size={18} />

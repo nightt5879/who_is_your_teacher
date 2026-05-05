@@ -1245,6 +1245,7 @@ button:disabled {
   isolation: isolate;
   color: var(--scene-text);
   background: var(--scene-dark);
+  touch-action: manipulation;
 }
 
 .result-scene-backdrop,
@@ -1678,6 +1679,10 @@ button:disabled {
   transform: translateX(-50%);
   backdrop-filter: blur(18px);
   animation: hiddenBannerIn 1s 300ms cubic-bezier(0.18, 0.9, 0.25, 1.2) both;
+}
+
+.art-mode-hint {
+  display: none;
 }
 
 .is-hidden-result::after {
@@ -2163,6 +2168,33 @@ button:disabled {
     overflow: hidden;
   }
 
+  .art-mode-hint {
+    position: fixed;
+    z-index: 7;
+    top: max(12px, env(safe-area-inset-top));
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    max-width: calc(100% - 24px);
+    padding: 6px 10px;
+    border: 1px solid color-mix(in srgb, var(--scene-accent) 38%, transparent);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+      color-mix(in srgb, var(--scene-dark) 64%, transparent);
+    color: color-mix(in srgb, var(--scene-text) 92%, transparent);
+    font-size: 11px;
+    font-weight: 900;
+    box-shadow:
+      0 0 18px color-mix(in srgb, var(--scene-glow) 22%, transparent),
+      0 10px 22px rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    backdrop-filter: blur(14px) saturate(1.1);
+    animation: revealUp 560ms 1500ms ease both;
+  }
+
   .result-title-float {
     left: 14px;
     top: 48px;
@@ -2306,5 +2338,72 @@ button:disabled {
 
   .result-scene-disclaimer {
     display: none;
+  }
+
+  .result-scene.is-art-view {
+    cursor: zoom-out;
+  }
+
+  .result-scene.is-art-view .result-scene-backdrop {
+    filter: blur(34px) saturate(1.18);
+    transform: scale(1.08);
+    opacity: 0.86;
+  }
+
+  .result-scene.is-art-view .result-scene-main-art img {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    transform: none;
+  }
+
+  .result-scene.is-art-view .result-scene-vignette {
+    background:
+      linear-gradient(180deg, rgba(2, 3, 7, 0.62), rgba(2, 3, 7, 0.12) 28%, rgba(2, 3, 7, 0.06) 66%, rgba(2, 3, 7, 0.58)),
+      radial-gradient(ellipse at 50% 18%, transparent 0 36%, rgba(2, 3, 7, 0.22) 76%, rgba(2, 3, 7, 0.66) 100%);
+  }
+
+  .result-scene.is-art-view .art-mode-hint {
+    border-color: color-mix(in srgb, var(--scene-accent) 64%, transparent);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
+      color-mix(in srgb, var(--scene-dark) 72%, var(--scene-primary) 28%);
+    color: var(--scene-text);
+    opacity: 1;
+    animation: none;
+  }
+
+  .result-scene.is-art-view .result-radar-float,
+  .result-scene.is-art-view .result-scores-float,
+  .result-scene.is-art-view .result-detail-float,
+  .result-scene.is-art-view .result-actions-float,
+  .result-scene.is-art-view .hidden-unlock-banner {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .result-scene.is-art-view .result-title-float {
+    top: max(42px, calc(env(safe-area-inset-top) + 24px));
+    width: calc(100% - 28px);
+  }
+
+  .result-scene.is-art-view .result-title-float .result-scene-header {
+    width: min(88vw, 430px);
+    gap: 7px;
+  }
+
+  .result-scene.is-art-view .result-title-float .result-title-row h1 {
+    font-size: clamp(46px, 17vw, 78px);
+  }
+
+  .result-scene.is-art-view .result-title-float .result-scene-line {
+    display: none;
+  }
+
+  .result-scene.is-art-view .result-title-float .result-scene-tags {
+    margin-top: 2px;
   }
 }
