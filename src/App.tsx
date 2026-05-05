@@ -16,9 +16,7 @@ import {
   getResultCopy,
   REPO_URL,
   UI_TEXT,
-  VISITOR_COUNT_API,
-  VISITOR_COUNT_BASE,
-  VISITOR_COUNT_KEY
+  VISITOR_COUNT_API
 } from "./i18n";
 import { calculateQuizResult } from "./scoring";
 import type { QuizResult } from "./types";
@@ -34,7 +32,7 @@ type VisitorCounterResponse = {
 function App() {
   const [stage, setStage] = useState<Stage>("home");
   const [language, setLanguage] = useState<Language>("zh");
-  const [visitorCount, setVisitorCount] = useState(VISITOR_COUNT_BASE);
+  const [visitorCount, setVisitorCount] = useState(0);
   const [alias, setAlias] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -60,18 +58,6 @@ function App() {
     countedVisit.current = true;
     countedThisPageLoad = true;
 
-    const fallbackToLocalCount = () => {
-      try {
-        const stored = Number.parseInt(window.localStorage.getItem(VISITOR_COUNT_KEY) ?? "", 10);
-        const current = Number.isFinite(stored) ? Math.max(stored, VISITOR_COUNT_BASE) : VISITOR_COUNT_BASE;
-        const next = current + 1;
-        window.localStorage.setItem(VISITOR_COUNT_KEY, String(next));
-        setVisitorCount(next);
-      } catch {
-        setVisitorCount(VISITOR_COUNT_BASE + 1);
-      }
-    };
-
     fetch(VISITOR_COUNT_API, { cache: "no-store" })
       .then((response) => {
         if (!response.ok) {
@@ -85,11 +71,11 @@ function App() {
           throw new Error("Visitor counter response is invalid.");
         }
 
-        const next = VISITOR_COUNT_BASE + data.count;
-        window.localStorage.setItem(VISITOR_COUNT_KEY, String(next));
-        setVisitorCount(next);
+        setVisitorCount(Math.max(0, Math.floor(data.count)));
       })
-      .catch(fallbackToLocalCount);
+      .catch(() => {
+        setVisitorCount(0);
+      });
   }, []);
 
   useEffect(() => {

@@ -6,8 +6,6 @@ export type Language = "zh" | "en";
 
 export const REPO_URL = "https://github.com/nightt5879/who_is_your_teacher";
 
-export const VISITOR_COUNT_KEY = "who-is-your-teacher.visitCount.v2";
-export const VISITOR_COUNT_BASE = 129;
 export const VISITOR_COUNT_API = "https://api.counterapi.dev/v1/nightt5879_who_is_your_teacher/visits/up";
 
 export const UI_TEXT = {
