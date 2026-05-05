@@ -77,7 +77,7 @@ export const RESULTS: ResultItem[] = [
     code: "CAPYBARA",
     name: "卡皮巴拉",
     type: "normal",
-    vector: { HW: 25, CT: 25, EX: 25, CH: 25, MY: 25, SL: 70, CA: 85, AU: 25 }
+    vector: { HW: 25, CT: 25, EX: 25, CH: 25, MY: 25, SL: 85, CA: 70, AU: 25 }
   },
   {
     code: "NPC_AI",

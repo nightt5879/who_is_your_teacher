@@ -32,7 +32,7 @@ export const QUESTIONS: Question[] = [
       { id: "d", text: "布置时只说“最近交”，具体哪天靠群里突然补刀。", delta: { HW: 2, CH: 2, MY: 1, AU: 1 } },
       {
         id: "e",
-        text: "DDL 是临时掉下来的：今晚通知，明早收。",
+        text: "实际 DDL 是两周后，但 TA 说起来像两天后就要 DDL。",
         delta: { HW: 3, EX: 3, CH: 2, AU: 2 },
         boost: { PRESSURE_MONSTER: 3 }
       }
@@ -153,7 +153,7 @@ export const QUESTIONS: Question[] = [
     id: "q9",
     text: "TA 的情绪稳定吗？",
     options: [
-      { id: "a", text: "稳定得像卡皮巴拉，天塌了先泡澡。", delta: { CA: 2, SL: 1 }, boost: { CAPYBARA: 4 } },
+      { id: "a", text: "稳定得像卡皮巴拉，天塌了先泡澡。", delta: { CA: 2, SL: 1 }, boost: { CAPYBARA: 1 } },
       { id: "b", text: "正常人类，偶尔加载失败。", delta: { CA: 1 } },
       { id: "c", text: "阴晴不定，看班群头像判断天气。", delta: { CH: 2, AU: 1 } },
       { id: "d", text: "一进门低气压，全班自动静音。", delta: { AU: 3, CT: 1 }, boost: { PRESSURE_MONSTER: 2 } },
@@ -211,7 +211,7 @@ export const QUESTIONS: Question[] = [
     id: "q12",
     text: "TA 答疑是什么风格？",
     options: [
-      { id: "a", text: "秒回且讲人话。", delta: { CA: 3 }, boost: { NINE_COLORED_DEER: 2 } },
+      { id: "a", text: "秒回且讲人话。", delta: { CA: 3 }, boost: { NINE_COLORED_DEER: 2, SWEEPING_MONK: 2 } },
       { id: "b", text: "会回，但像办公时间限定皮肤。", delta: { CA: 1 } },
       { id: "c", text: "三天后回一个“看课件”。", delta: { SL: 2, MY: 1 }, boost: { SQUIDWARD: 2 } },
       { id: "d", text: "只回一个问号，你的人生也变成问号。", delta: { MY: 2, AU: 2 }, boost: { GOTHAM_RIDDLER: 2 } },
@@ -385,7 +385,7 @@ export const QUESTIONS: Question[] = [
     id: "q21",
     text: "TA 的课堂氛围像什么？",
     options: [
-      { id: "a", text: "像学习小组，有讨论有反馈。", delta: { CA: 3 }, boost: { SWEEPING_MONK: 2 } },
+      { id: "a", text: "像学习小组，有讨论有反馈。", delta: { CA: 3 }, boost: { SWEEPING_MONK: 3 } },
       { id: "b", text: "安静但不窒息。", delta: { CA: 1, CT: 1 } },
       { id: "c", text: "你可以呼吸，但最好小声。", delta: { CT: 2, AU: 1 } },
       {
@@ -406,7 +406,7 @@ export const QUESTIONS: Question[] = [
     id: "q22",
     text: "TA 批改作业的反馈如何？",
     options: [
-      { id: "a", text: "具体到能改，像代码 review。", delta: { CA: 2, CT: 1 }, boost: { SWEEPING_MONK: 3 } },
+      { id: "a", text: "具体到能改，像代码 review。", delta: { CA: 2, CT: 1 }, boost: { SWEEPING_MONK: 4 } },
       { id: "b", text: "会圈问题，能懂。", delta: { CA: 1, EX: 1 } },
       { id: "c", text: "只写“重做”，但不说重哪。", delta: { MY: 2, AU: 1 } },
       {

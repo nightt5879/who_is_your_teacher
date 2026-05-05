@@ -153,7 +153,7 @@ const EN_QUESTIONS: Record<string, QuestionTranslation> = {
       b: "Explained clearly, then you submit on your own like an adult.",
       c: "The DDL is known early, but daily reminders tick like a bomb in the class chat.",
       d: "They only say 'submit it soon'; the exact date appears later as a surprise attack.",
-      e: "The DDL falls from the sky: announced tonight, due tomorrow morning."
+      e: "The real DDL is two weeks away, but TA says it like it is due in two days."
     }
   },
   q3: {
