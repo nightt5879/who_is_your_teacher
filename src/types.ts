@@ -52,6 +52,63 @@ export type ResultItem = {
   vector: DimensionScores;
 };
 
+export type ResultTheme = {
+  code: ResultCode;
+  asset: string;
+  colors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    surface: string;
+    text: string;
+  };
+  decorations: string[];
+  mood: string;
+};
+
+export type ResultSceneHudSpot = {
+  x: string;
+  y: string;
+  width: string;
+  align: "left" | "center" | "right";
+};
+
+export type ResultSceneConfig = {
+  code: ResultCode;
+  fullAsset: string;
+  palette: {
+    primary: string;
+    dark: string;
+    accent: string;
+    glow: string;
+    text: string;
+  };
+  desktopFocus: {
+    x: string;
+    y: string;
+    scale: number;
+  };
+  mobileFocus: {
+    x: string;
+    y: string;
+    scale: number;
+  };
+  panelPlacement: "left" | "right" | "bottom";
+  motionVariant: "calm" | "spark" | "pressure" | "mystic" | "hidden";
+  hud: {
+    title: ResultSceneHudSpot;
+    radar: ResultSceneHudSpot;
+    scores: ResultSceneHudSpot;
+    details: ResultSceneHudSpot;
+    actions: ResultSceneHudSpot;
+  };
+  posterLayout: {
+    focusX: number;
+    focusY: number;
+    shade: "light" | "dark" | "dramatic";
+  };
+};
+
 export type ResultCopy = {
   code: ResultCode;
   name: string;

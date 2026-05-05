@@ -5,37 +5,37 @@ export const RESULTS: ResultItem[] = [
     code: "KHRUSHCHEV",
     name: "赫鲁晓夫",
     type: "normal",
-    vector: { HW: 90, CT: 90, EX: 70, CH: 40, MY: 30, SL: 5, CA: 10, AU: 85 }
+    vector: { HW: 90, CT: 90, EX: 70, CH: 40, MY: 30, SL: 25, CA: 25, AU: 85 }
   },
   {
     code: "ART_STUDENT",
     name: "小胡子美术生",
     type: "normal",
-    vector: { HW: 75, CT: 100, EX: 80, CH: 45, MY: 35, SL: 0, CA: 0, AU: 100 }
+    vector: { HW: 75, CT: 100, EX: 80, CH: 45, MY: 35, SL: 25, CA: 25, AU: 100 }
   },
   {
     code: "TRUMP",
     name: "特朗普",
     type: "normal",
-    vector: { HW: 45, CT: 55, EX: 35, CH: 95, MY: 75, SL: 25, CA: 10, AU: 55 }
+    vector: { HW: 45, CT: 55, EX: 35, CH: 95, MY: 75, SL: 25, CA: 25, AU: 55 }
   },
   {
     code: "PATRICK",
     name: "派大星",
     type: "normal",
-    vector: { HW: 15, CT: 10, EX: 5, CH: 60, MY: 70, SL: 95, CA: 45, AU: 5 }
+    vector: { HW: 25, CT: 25, EX: 25, CH: 60, MY: 70, SL: 95, CA: 45, AU: 25 }
   },
   {
     code: "THANOS",
     name: "灭霸",
     type: "normal",
-    vector: { HW: 75, CT: 70, EX: 100, CH: 55, MY: 45, SL: 0, CA: 0, AU: 95 }
+    vector: { HW: 75, CT: 70, EX: 100, CH: 55, MY: 45, SL: 25, CA: 25, AU: 95 }
   },
   {
     code: "BUU",
     name: "魔人布欧",
     type: "normal",
-    vector: { HW: 65, CT: 50, EX: 65, CH: 95, MY: 45, SL: 20, CA: 15, AU: 85 }
+    vector: { HW: 65, CT: 50, EX: 65, CH: 95, MY: 45, SL: 25, CA: 25, AU: 85 }
   },
   {
     code: "GOTHAM_RIDDLER",
@@ -47,37 +47,37 @@ export const RESULTS: ResultItem[] = [
     code: "RONG",
     name: "容嬷嬷",
     type: "normal",
-    vector: { HW: 65, CT: 85, EX: 90, CH: 35, MY: 30, SL: 0, CA: 5, AU: 90 }
+    vector: { HW: 65, CT: 85, EX: 90, CH: 35, MY: 30, SL: 25, CA: 25, AU: 90 }
   },
   {
     code: "HOLMES",
     name: "福尔摩斯",
     type: "normal",
-    vector: { HW: 55, CT: 75, EX: 75, CH: 25, MY: 40, SL: 5, CA: 25, AU: 65 }
+    vector: { HW: 55, CT: 75, EX: 75, CH: 25, MY: 40, SL: 25, CA: 25, AU: 65 }
   },
   {
     code: "KONGMING",
     name: "诸葛亮",
     type: "normal",
-    vector: { HW: 65, CT: 80, EX: 65, CH: 25, MY: 60, SL: 0, CA: 50, AU: 60 }
+    vector: { HW: 65, CT: 80, EX: 65, CH: 25, MY: 60, SL: 25, CA: 50, AU: 60 }
   },
   {
     code: "SPONGEBOB",
     name: "海绵宝宝",
     type: "normal",
-    vector: { HW: 55, CT: 35, EX: 30, CH: 75, MY: 25, SL: 5, CA: 95, AU: 20 }
+    vector: { HW: 55, CT: 35, EX: 30, CH: 75, MY: 25, SL: 25, CA: 95, AU: 25 }
   },
   {
     code: "SQUIDWARD",
     name: "章鱼哥",
     type: "normal",
-    vector: { HW: 30, CT: 40, EX: 25, CH: 20, MY: 35, SL: 80, CA: 15, AU: 25 }
+    vector: { HW: 30, CT: 40, EX: 25, CH: 25, MY: 35, SL: 80, CA: 25, AU: 25 }
   },
   {
     code: "CAPYBARA",
     name: "卡皮巴拉",
     type: "normal",
-    vector: { HW: 10, CT: 10, EX: 5, CH: 20, MY: 20, SL: 70, CA: 85, AU: 5 }
+    vector: { HW: 25, CT: 25, EX: 25, CH: 25, MY: 25, SL: 70, CA: 85, AU: 25 }
   },
   {
     code: "NPC_AI",
@@ -89,19 +89,19 @@ export const RESULTS: ResultItem[] = [
     code: "TAILOR",
     name: "裁缝",
     type: "normal",
-    vector: { HW: 35, CT: 35, EX: 30, CH: 80, MY: 85, SL: 55, CA: 20, AU: 20 }
+    vector: { HW: 35, CT: 35, EX: 30, CH: 80, MY: 85, SL: 55, CA: 25, AU: 25 }
   },
   {
     code: "QIN",
     name: "秦始皇",
     type: "normal",
-    vector: { HW: 75, CT: 100, EX: 70, CH: 20, MY: 35, SL: 0, CA: 20, AU: 80 }
+    vector: { HW: 75, CT: 100, EX: 70, CH: 25, MY: 35, SL: 25, CA: 25, AU: 80 }
   },
   {
     code: "PRESSURE_MONSTER",
     name: "压力怪",
     type: "normal",
-    vector: { HW: 85, CT: 85, EX: 90, CH: 60, MY: 50, SL: 0, CA: 5, AU: 100 }
+    vector: { HW: 85, CT: 85, EX: 90, CH: 60, MY: 50, SL: 25, CA: 25, AU: 100 }
   },
   {
     code: "KAKASHI",

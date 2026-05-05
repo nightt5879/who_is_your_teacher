@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { QUESTIONS } from "./questions";
 import { RESULT_COPY } from "./resultCopy";
 import { RESULTS } from "./results";
+import { RESULT_SCENES } from "./resultScenes";
 import { getQuestions, getResultCopy } from "../i18n";
 import { DIMENSIONS, RESULT_CODES } from "../types";
 
@@ -54,6 +55,16 @@ describe("quiz data", () => {
     expect(Object.keys(RESULT_COPY).sort()).toEqual([...RESULT_CODES].sort());
   });
 
+  it("keeps extreme low result vectors exclusive to hidden results", () => {
+    for (const result of RESULTS) {
+      if (result.type !== "normal") continue;
+
+      for (const dim of DIMENSIONS) {
+        expect(result.vector[dim]).toBeGreaterThanOrEqual(25);
+      }
+    }
+  });
+
   it("covers every question, option, and result in both languages", () => {
     for (const language of ["zh", "en"] as const) {
       const localizedQuestions = getQuestions(language);
@@ -74,6 +85,42 @@ describe("quiz data", () => {
       for (const code of RESULT_CODES) {
         expect(localizedCopy[code].oneLiner.length).toBeGreaterThan(0);
         expect(localizedCopy[code].survivalGuide.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("has an immersive scene asset and palette for every result", () => {
+    expect(Object.keys(RESULT_SCENES).sort()).toEqual([...RESULT_CODES].sort());
+
+    for (const code of RESULT_CODES) {
+      const scene = RESULT_SCENES[code];
+      const result = RESULTS.find((item) => item.code === code);
+
+      expect(scene.code).toBe(code);
+      expect(scene.fullAsset).toMatch(/^\/who_is_your_teacher\/assets\/result-scenes\/.+\.webp$/);
+      expect(scene.desktopFocus.x).toMatch(/%$/);
+      expect(scene.desktopFocus.y).toMatch(/%$/);
+      expect(scene.mobileFocus.x).toMatch(/%$/);
+      expect(scene.mobileFocus.y).toMatch(/%$/);
+      expect(scene.desktopFocus.scale).toBeGreaterThan(0);
+      expect(scene.mobileFocus.scale).toBeGreaterThan(0);
+      expect(["left", "right", "bottom"]).toContain(scene.panelPlacement);
+      expect(["calm", "spark", "pressure", "mystic", "hidden"]).toContain(scene.motionVariant);
+      expect(["light", "dark", "dramatic"]).toContain(scene.posterLayout.shade);
+
+      for (const color of Object.values(scene.palette)) {
+        expect(color).toMatch(/^#[0-9a-f]{6}$/i);
+      }
+
+      for (const spot of Object.values(scene.hud)) {
+        expect(spot.x.length).toBeGreaterThan(0);
+        expect(spot.y.length).toBeGreaterThan(0);
+        expect(spot.width.length).toBeGreaterThan(0);
+        expect(["left", "center", "right"]).toContain(spot.align);
+      }
+
+      if (result?.type === "hidden") {
+        expect(scene.motionVariant).toBe("hidden");
       }
     }
   });

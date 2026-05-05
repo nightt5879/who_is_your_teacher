@@ -1,13 +1,14 @@
 ﻿import { QUESTIONS } from "./data/questions";
 import { RESULT_COPY } from "./data/resultCopy";
-import type { Question, ResultCode, ResultCopy } from "./types";
+import type { Dimension, Question, ResultCode, ResultCopy } from "./types";
 
 export type Language = "zh" | "en";
 
 export const REPO_URL = "https://github.com/nightt5879/who_is_your_teacher";
 
-export const VISITOR_COUNT_KEY = "who-is-your-teacher.visitCount.v1";
-export const VISITOR_COUNT_BASE = 935;
+export const VISITOR_COUNT_KEY = "who-is-your-teacher.visitCount.v2";
+export const VISITOR_COUNT_BASE = 129;
+export const VISITOR_COUNT_API = "https://api.counterapi.dev/v1/nightt5879_who_is_your_teacher/visits/up";
 
 export const UI_TEXT = {
   zh: {
@@ -18,9 +19,9 @@ export const UI_TEXT = {
     languageEn: "English",
     topbarNote: "纯娱乐测试",
     eyebrow: "Who Is Your Teacher",
-    heroTitle: "把老师代号放进来，看看 TA 会刷出哪张角色卡。",
+    heroTitle: "你老师最像谁？",
     tagQuestions: "24 题",
-    tagResults: "23 结果",
+    tagResults: "17+n 个结果",
     tagLocal: "本地计算",
     playedPrefix: "已有",
     playedSuffix: "人参与测试",
@@ -33,13 +34,23 @@ export const UI_TEXT = {
     resultButton: "看结果",
     resultPrefix: "最像",
     damageTitle: "精神损伤指数",
+    radarTitle: "八维成分雷达",
     quoteTitle: "老师名言",
     guideTitle: "生存攻略",
+    loadingTitle: "正在调取老师隐藏档案",
+    loadingSubtitle: "统计作业轰炸、考试突袭、谜语玄学与精神压迫中...",
+    loadingProgress: "匹配最终成分",
     sharePreview: "分享卡预览",
     share: "分享",
+    saveResult: "保存结果图",
+    savingResult: "生成中",
+    savedResult: "已生成",
+    copyResult: "复制结果",
     shared: "已分享",
     copied: "已复制",
     copyFailed: "复制失败",
+    hiddenUnlocked: "隐藏款解锁",
+    hiddenBadge: "隐藏款",
     disclaimer: "本测试纯属娱乐，不构成对任何现实人物的评价。不要输入真实姓名，不上传照片或个人数据。",
     githubTitle: "GitHub",
     githubText: "欢迎来仓库聊聊、提想法，等公开后一起玩。",
@@ -56,9 +67,9 @@ export const UI_TEXT = {
     languageEn: "English",
     topbarNote: "Just for fun",
     eyebrow: "Who Is Your Teacher",
-    heroTitle: "Drop in a teacher codename and see which character card appears.",
+    heroTitle: "Who Is Your Teacher?",
     tagQuestions: "24 questions",
-    tagResults: "23 results",
+    tagResults: "17+n results",
     tagLocal: "Local scoring",
     playedPrefix: "",
     playedSuffix: "people have tried it",
@@ -71,13 +82,23 @@ export const UI_TEXT = {
     resultButton: "Reveal result",
     resultPrefix: "is most like",
     damageTitle: "Mental Damage Index",
+    radarTitle: "Eight-Dimension Radar",
     quoteTitle: "Teacher Quote",
     guideTitle: "Survival Guide",
+    loadingTitle: "Loading the hidden teacher file",
+    loadingSubtitle: "Checking homework load, exam ambushes, riddle energy, and pressure...",
+    loadingProgress: "Matching final profile",
     sharePreview: "Share card preview",
     share: "Share",
+    saveResult: "Save result",
+    savingResult: "Generating",
+    savedResult: "Saved",
+    copyResult: "Copy result",
     shared: "Shared",
     copied: "Copied",
     copyFailed: "Copy failed",
+    hiddenUnlocked: "Hidden Result Unlocked",
+    hiddenBadge: "Hidden",
     disclaimer:
       "This quiz is for entertainment only and is not an evaluation of any real person. Do not enter real names or upload photos or personal data.",
     githubTitle: "GitHub",
@@ -88,6 +109,32 @@ export const UI_TEXT = {
     entertainmentLine: "This quiz is just for fun."
   }
 } satisfies Record<Language, Record<string, string>>;
+
+export const DIMENSION_LABELS: Record<
+  Language,
+  Record<Dimension, { short: string; long: string }>
+> = {
+  zh: {
+    HW: { short: "作业", long: "作业轰炸" },
+    CT: { short: "纪律", long: "控制纪律" },
+    EX: { short: "考试", long: "考试突袭" },
+    CH: { short: "混沌", long: "混沌整活" },
+    MY: { short: "谜语", long: "谜语玄学" },
+    SL: { short: "失联", long: "摆烂失联" },
+    CA: { short: "关怀", long: "人性关怀" },
+    AU: { short: "压迫", long: "压迫威慑" }
+  },
+  en: {
+    HW: { short: "HW", long: "Homework Load" },
+    CT: { short: "Rule", long: "Control & Discipline" },
+    EX: { short: "Exam", long: "Exam Ambush" },
+    CH: { short: "Chaos", long: "Chaos Energy" },
+    MY: { short: "Riddle", long: "Riddle Logic" },
+    SL: { short: "Away", long: "Absent / Delayed" },
+    CA: { short: "Care", long: "Human Care" },
+    AU: { short: "Aura", long: "Authority Pressure" }
+  }
+};
 
 type QuestionTranslation = {
   text: string;
