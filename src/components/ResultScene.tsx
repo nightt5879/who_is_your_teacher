@@ -1,8 +1,8 @@
 import { Github, Quote, RotateCcw, Sparkles } from "lucide-react";
 import type { CSSProperties } from "react";
 import { AnimatedScoreGrid } from "./AnimatedScoreGrid";
+import { CopyResultButton } from "./CopyResultButton";
 import { DimensionRadar } from "./DimensionRadar";
-import { SaveResultButton } from "./SaveResultButton";
 import type { QuizResult, ResultCopy, ResultSceneConfig, ResultSceneHudSpot } from "../types";
 import type { Language } from "../i18n";
 
@@ -19,10 +19,10 @@ type ResultSceneProps = {
 
 function buildCopyText(alias: string, copy: ResultCopy, language: Language, ui: Record<string, string>) {
   if (language === "zh") {
-    return `${alias} 测出来是：${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}`;
+    return `${alias} 测出来是：${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}\nhttps://nightt5879.github.io/who_is_your_teacher/`;
   }
 
-  return `${alias} got: ${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}`;
+  return `${alias} got: ${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}\nhttps://nightt5879.github.io/who_is_your_teacher/`;
 }
 
 function hudStyle(spot: ResultSceneHudSpot, delay: number): CSSProperties {
@@ -124,16 +124,7 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
 
         <section className="result-hud-node result-actions-float result-stagger" style={hudStyle(scene.hud.actions, 1360)}>
           <div className="result-scene-actions">
-            <SaveResultButton
-              alias={alias}
-              copy={copy}
-              language={language}
-              profile={result.profile}
-              scene={scene}
-              isHidden={isHidden}
-              ui={ui}
-              copyText={copyText}
-            />
+            <CopyResultButton ui={ui} copyText={copyText} />
             <a className="github-scene-link" href={repoUrl} target="_blank" rel="noreferrer">
               <Github aria-hidden="true" size={20} />
               <span>

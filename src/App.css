@@ -1599,21 +1599,14 @@ button:disabled {
   margin-top: 16px;
 }
 
-.save-result-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-}
-
-.save-result-actions .primary-action,
-.save-result-actions .secondary-action,
 .result-restart-button {
   min-height: 48px;
   border-radius: 12px;
 }
 
 .copy-result-button {
-  padding-inline: 13px;
+  min-height: 48px;
+  padding-inline: 18px;
 }
 
 .github-scene-link {
@@ -1906,10 +1899,6 @@ button:disabled {
   .result-scene-line,
   .result-scene-detail-grid p {
     font-size: 13px;
-  }
-
-  .save-result-actions {
-    grid-template-columns: 1fr;
   }
 
   .animated-score-grid {
@@ -2308,10 +2297,6 @@ button:disabled {
 
   .result-actions-float .result-scene-actions {
     grid-template-columns: 1fr;
-  }
-
-  .result-actions-float .save-result-actions {
-    grid-template-columns: 1fr 1fr;
   }
 
   .result-actions-float .github-scene-link,
