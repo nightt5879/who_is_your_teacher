@@ -1,5 +1,5 @@
 import { Github, Quote, RotateCcw, Sparkles } from "lucide-react";
-import { useRef, useState, type CSSProperties, type MouseEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent, type PointerEvent } from "react";
 import { AnimatedScoreGrid } from "./AnimatedScoreGrid";
 import { CopyResultButton } from "./CopyResultButton";
 import { DimensionRadar } from "./DimensionRadar";
@@ -45,8 +45,10 @@ function isMobileResultViewport() {
 
 export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl, onRestart }: ResultSceneProps) {
   const [isArtView, setIsArtView] = useState(false);
+  const [isArtTransitioning, setIsArtTransitioning] = useState(false);
   const lastTapAt = useRef(0);
   const lastToggleAt = useRef(0);
+  const artTransitionTimer = useRef<number | null>(null);
   const isHidden = result.finalResult.type === "hidden";
   const copyText = buildCopyText(alias, copy, language, ui);
   const sceneStyle = {
@@ -64,6 +66,14 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
     "--scene-image": `url("${scene.fullAsset}")`
   } as CSSProperties;
 
+  useEffect(() => {
+    return () => {
+      if (artTransitionTimer.current !== null) {
+        window.clearTimeout(artTransitionTimer.current);
+      }
+    };
+  }, []);
+
   function toggleArtView() {
     if (!isMobileResultViewport()) return;
 
@@ -71,6 +81,14 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
     if (now - lastToggleAt.current < 280) return;
 
     lastToggleAt.current = now;
+    setIsArtTransitioning(true);
+    if (artTransitionTimer.current !== null) {
+      window.clearTimeout(artTransitionTimer.current);
+    }
+    artTransitionTimer.current = window.setTimeout(() => {
+      setIsArtTransitioning(false);
+      artTransitionTimer.current = null;
+    }, 760);
     setIsArtView((current) => !current);
   }
 
@@ -99,7 +117,7 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
     <section
       className={`result-scene result-scene--${scene.panelPlacement} result-scene--${scene.motionVariant}${
         isHidden ? " is-hidden-result" : ""
-      }${isArtView ? " is-art-view" : ""}`}
+      }${isArtView ? " is-art-view" : ""}${isArtTransitioning ? " is-art-transitioning" : ""}`}
       style={sceneStyle}
       onPointerUp={handleScenePointerUp}
       onDoubleClick={handleSceneDoubleClick}
@@ -149,6 +167,11 @@ export function ResultScene({ alias, language, result, copy, scene, ui, repoUrl,
         <section className="result-hud-node result-radar-float result-stagger" style={hudStyle(scene.hud.radar, 780)}>
           <div className="radar-float-label">{ui.radarTitle}</div>
           <DimensionRadar profile={result.profile} language={language} theme={scene} animated />
+        </section>
+
+        <section className="result-art-radar-float" aria-hidden={!isArtView}>
+          <div className="radar-float-label">{ui.radarTitle}</div>
+          <DimensionRadar profile={result.profile} language={language} theme={scene} />
         </section>
 
         <section className="result-hud-node result-scores-float result-stagger" style={hudStyle(scene.hud.scores, 980)}>

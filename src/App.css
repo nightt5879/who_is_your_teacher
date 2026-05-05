@@ -2010,12 +2010,18 @@ button:disabled {
   backdrop-filter: blur(12px);
 }
 
-.result-radar-float {
+.result-radar-float,
+.result-art-radar-float {
   display: grid;
   justify-items: center;
+  isolation: isolate;
   filter:
     drop-shadow(0 0 24px color-mix(in srgb, var(--scene-glow) 36%, transparent))
     drop-shadow(0 18px 36px rgba(0, 0, 0, 0.46));
+}
+
+.result-art-radar-float {
+  display: none;
 }
 
 .radar-float-label {
@@ -2023,17 +2029,55 @@ button:disabled {
   margin-bottom: -12px;
   padding: 5px 11px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.34);
-  color: var(--scene-accent);
+  background: transparent;
+  color: color-mix(in srgb, var(--scene-accent) 88%, var(--scene-text) 12%);
   font-size: 12px;
   font-weight: 950;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--scene-glow) 26%, transparent);
+  letter-spacing: 0.03em;
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--scene-glow) 46%, transparent),
+    0 3px 10px rgba(0, 0, 0, 0.78);
 }
 
-.result-radar-float .dimension-radar {
+.result-radar-float .dimension-radar,
+.result-art-radar-float .dimension-radar {
   width: 100%;
   margin: 0;
+}
+
+.result-radar-float .dimension-radar,
+.result-art-radar-float .dimension-radar {
+  filter:
+    drop-shadow(0 0 14px color-mix(in srgb, var(--scene-glow) 24%, transparent))
+    drop-shadow(0 7px 16px rgba(0, 0, 0, 0.38));
+}
+
+.result-radar-float .radar-ring,
+.result-art-radar-float .radar-ring {
+  stroke-opacity: 0.24;
+}
+
+.result-radar-float .radar-axis,
+.result-art-radar-float .radar-axis {
+  stroke-opacity: 0.18;
+}
+
+.result-radar-float .radar-label,
+.result-radar-float .radar-value,
+.result-art-radar-float .radar-label,
+.result-art-radar-float .radar-value {
+  paint-order: stroke;
+  stroke: rgba(2, 3, 7, 0.76);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  text-shadow:
+    0 0 9px color-mix(in srgb, var(--scene-glow) 36%, transparent),
+    0 2px 6px rgba(0, 0, 0, 0.72);
+}
+
+.result-radar-float .radar-value-shape,
+.result-art-radar-float .radar-value-shape {
+  fill-opacity: 0.66;
 }
 
 .result-scores-float .animated-score-grid {
@@ -2227,6 +2271,7 @@ button:disabled {
   }
 
   .result-radar-float,
+  .result-art-radar-float,
   .result-scores-float,
   .result-detail-float,
   .result-actions-float,
@@ -2237,6 +2282,14 @@ button:disabled {
       transform 520ms 120ms cubic-bezier(0.2, 0.86, 0.24, 1),
       filter 360ms 120ms ease,
       visibility 0s linear 0s;
+  }
+
+  .result-scene.is-art-transitioning .result-radar-float,
+  .result-scene.is-art-transitioning .result-art-radar-float,
+  .result-scene.is-art-transitioning .result-scores-float,
+  .result-scene.is-art-transitioning .result-detail-float,
+  .result-scene.is-art-transitioning .result-actions-float {
+    pointer-events: none;
   }
 
   .art-mode-hint {
@@ -2303,15 +2356,34 @@ button:disabled {
     top: clamp(250px, 32svh, 310px);
     right: 8px;
     width: clamp(136px, 39vw, 168px);
-    padding: 5px 4px 2px;
-    border-radius: 18px;
-    background:
-      radial-gradient(circle at 50% 46%, color-mix(in srgb, var(--scene-glow) 16%, transparent), transparent 64%),
-      linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.08));
-    box-shadow:
-      0 0 24px color-mix(in srgb, var(--scene-glow) 18%, transparent),
-      0 14px 28px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px) saturate(1.08);
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    opacity: 0.92;
+  }
+
+  .result-art-radar-float {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    bottom: max(18px, calc(env(safe-area-inset-bottom) + 14px));
+    display: grid;
+    width: clamp(148px, 40vw, 184px);
+    justify-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 16px) scale(0.94);
+    filter:
+      drop-shadow(0 0 26px color-mix(in srgb, var(--scene-glow) 28%, transparent))
+      drop-shadow(0 18px 36px rgba(0, 0, 0, 0.42));
+    transition:
+      opacity 420ms ease,
+      transform 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      filter 520ms ease,
+      visibility 0s linear 420ms;
   }
 
   .radar-float-label {
@@ -2319,16 +2391,19 @@ button:disabled {
     font-size: 10px;
   }
 
-  .result-radar-float .dimension-radar {
+  .result-radar-float .dimension-radar,
+  .result-art-radar-float .dimension-radar {
     width: 100%;
     max-width: 168px;
   }
 
-  .result-radar-float .radar-label {
+  .result-radar-float .radar-label,
+  .result-art-radar-float .radar-label {
     font-size: 10px;
   }
 
-  .result-radar-float .radar-value {
+  .result-radar-float .radar-value,
+  .result-art-radar-float .radar-value {
     font-size: 9px;
   }
 
@@ -2479,58 +2554,45 @@ button:disabled {
     transform: translateY(0);
   }
 
+  .result-scene.is-art-view .result-radar-float,
   .result-scene.is-art-view .result-scores-float,
   .result-scene.is-art-view .result-detail-float,
   .result-scene.is-art-view .result-actions-float,
   .result-scene.is-art-view .hidden-unlock-banner {
+    animation: none;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(18px) scale(0.96);
-    filter: blur(5px);
+    transform: translateY(16px) scale(0.96);
+    filter: blur(4px);
     transition:
-      opacity 260ms ease,
-      transform 360ms cubic-bezier(0.42, 0, 0.4, 1),
-      filter 260ms ease,
-      visibility 0s linear 300ms;
+      opacity 320ms ease,
+      transform 460ms cubic-bezier(0.42, 0, 0.4, 1),
+      filter 360ms ease,
+      visibility 0s linear 360ms;
   }
 
-  .result-scene.is-art-view .result-radar-float {
+  .result-scene.is-art-view .result-art-radar-float {
     visibility: visible;
-    left: 50%;
-    right: auto;
-    top: auto;
-    bottom: max(18px, calc(env(safe-area-inset-bottom) + 14px));
-    width: clamp(146px, 40vw, 176px);
-    padding: 6px 5px 3px;
-    opacity: 0.96;
+    opacity: 0.94;
     pointer-events: none;
-    animation: none;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0) scale(1);
     filter:
-      drop-shadow(0 0 24px color-mix(in srgb, var(--scene-glow) 24%, transparent))
-      drop-shadow(0 16px 34px rgba(0, 0, 0, 0.42));
-    background:
-      radial-gradient(circle at 50% 48%, color-mix(in srgb, var(--scene-glow) 18%, transparent), transparent 66%),
-      linear-gradient(180deg, rgba(2, 3, 7, 0.52), rgba(2, 3, 7, 0.18));
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-      0 16px 34px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px) saturate(1.08);
+      drop-shadow(0 0 30px color-mix(in srgb, var(--scene-glow) 34%, transparent))
+      drop-shadow(0 16px 34px rgba(0, 0, 0, 0.4));
     transition:
-      opacity 420ms 120ms ease,
-      transform 560ms 80ms cubic-bezier(0.2, 0.86, 0.24, 1),
-      filter 420ms 120ms ease,
-      width 520ms cubic-bezier(0.2, 0.86, 0.24, 1);
+      opacity 460ms 160ms ease,
+      transform 660ms 120ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      filter 520ms 160ms ease,
+      visibility 0s linear 0s;
   }
 
-  .result-scene.is-art-view .result-radar-float .dimension-radar {
-    max-width: 176px;
+  .result-scene.is-art-view .result-art-radar-float .dimension-radar {
+    max-width: 184px;
   }
 
-  .result-scene.is-art-view .radar-float-label {
+  .result-scene.is-art-view .result-art-radar-float .radar-float-label {
     margin-bottom: -9px;
-    background: rgba(0, 0, 0, 0.48);
   }
 
   .result-scene.is-art-view .result-title-float {
@@ -2565,10 +2627,16 @@ button:disabled {
   .result-radar-float {
     top: clamp(232px, 34svh, 254px);
     width: clamp(118px, 34vw, 142px);
-    padding: 4px 3px 1px;
+    padding: 0;
   }
 
-  .result-radar-float .dimension-radar {
+  .result-art-radar-float {
+    bottom: max(12px, calc(env(safe-area-inset-bottom) + 10px));
+    width: clamp(132px, 35vw, 160px);
+  }
+
+  .result-radar-float .dimension-radar,
+  .result-art-radar-float .dimension-radar {
     max-width: 142px;
   }
 
@@ -2616,7 +2684,7 @@ button:disabled {
     top: max(44px, 10svh);
     right: 8px;
     width: clamp(116px, 30vw, 138px);
-    padding: 4px 3px 1px;
+    padding: 0;
   }
 
   .result-scene:not(.is-art-view) .result-radar-float .dimension-radar {
@@ -2686,15 +2754,22 @@ button:disabled {
     width: clamp(112px, 33vw, 128px);
   }
 
-  .result-radar-float .dimension-radar {
+  .result-art-radar-float {
+    width: clamp(126px, 39vw, 148px);
+  }
+
+  .result-radar-float .dimension-radar,
+  .result-art-radar-float .dimension-radar {
     max-width: 128px;
   }
 
-  .result-radar-float .radar-label {
+  .result-radar-float .radar-label,
+  .result-art-radar-float .radar-label {
     font-size: 9px;
   }
 
-  .result-radar-float .radar-value {
+  .result-radar-float .radar-value,
+  .result-art-radar-float .radar-value {
     font-size: 8px;
   }
 }
@@ -2709,6 +2784,7 @@ button:disabled {
   .result-title-float .result-scene-line,
   .result-title-float .result-scene-tags,
   .result-radar-float,
+  .result-art-radar-float,
   .result-scores-float,
   .result-detail-float,
   .result-actions-float,
