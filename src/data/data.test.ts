@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { QUESTIONS } from "./questions";
 import { RESULT_COPY } from "./resultCopy";
 import { RESULTS } from "./results";
+import { getQuestions, getResultCopy } from "../i18n";
 import { DIMENSIONS, RESULT_CODES } from "../types";
 
 describe("quiz data", () => {
@@ -51,5 +52,29 @@ describe("quiz data", () => {
     }
 
     expect(Object.keys(RESULT_COPY).sort()).toEqual([...RESULT_CODES].sort());
+  });
+
+  it("covers every question, option, and result in both languages", () => {
+    for (const language of ["zh", "en"] as const) {
+      const localizedQuestions = getQuestions(language);
+      const localizedCopy = getResultCopy(language);
+
+      expect(localizedQuestions).toHaveLength(QUESTIONS.length);
+      expect(Object.keys(localizedCopy).sort()).toEqual([...RESULT_CODES].sort());
+
+      for (const question of localizedQuestions) {
+        expect(question.text.length).toBeGreaterThan(0);
+        expect(question.options).toHaveLength(5);
+
+        for (const option of question.options) {
+          expect(option.text.length).toBeGreaterThan(0);
+        }
+      }
+
+      for (const code of RESULT_CODES) {
+        expect(localizedCopy[code].oneLiner.length).toBeGreaterThan(0);
+        expect(localizedCopy[code].survivalGuide.length).toBeGreaterThan(0);
+      }
+    }
   });
 });

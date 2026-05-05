@@ -1,4 +1,4 @@
-import type { ResultItem } from "../types";
+﻿import type { ResultItem } from "../types";
 
 export const RESULTS: ResultItem[] = [
   {
@@ -38,8 +38,8 @@ export const RESULTS: ResultItem[] = [
     vector: { HW: 65, CT: 50, EX: 65, CH: 95, MY: 45, SL: 20, CA: 15, AU: 85 }
   },
   {
-    code: "RIDDLE_SINGER",
-    name: "歌坛谜语人",
+    code: "GOTHAM_RIDDLER",
+    name: "哥谭谜语人",
     type: "normal",
     vector: { HW: 45, CT: 35, EX: 55, CH: 60, MY: 100, SL: 40, CA: 25, AU: 50 }
   },

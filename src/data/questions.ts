@@ -1,4 +1,4 @@
-import type { Question } from "../types";
+﻿import type { Question } from "../types";
 
 export const QUESTIONS: Question[] = [
   {
@@ -68,9 +68,9 @@ export const QUESTIONS: Question[] = [
       { id: "c", text: "PPT 会讲，老师偶尔路过。", delta: { MY: 2, SL: 1 }, boost: { TAILOR: 2 } },
       {
         id: "d",
-        text: "像歌坛谜语人：每句话都有旋律，但没有答案。",
+        text: "像哥谭谜语人：每句话都是谜面，但没有答案。",
         delta: { MY: 3, CH: 1, AU: 1 },
-        boost: { RIDDLE_SINGER: 4 }
+        boost: { GOTHAM_RIDDLER: 4 }
       },
       {
         id: "e",
@@ -124,7 +124,7 @@ export const QUESTIONS: Question[] = [
       { id: "a", text: "考什么直接划，不玩心理战。", delta: { CA: 3 }, boost: { NINE_COLORED_DEER: 2 } },
       { id: "b", text: "说重点基本就是重点。", delta: { CA: 1, EX: 1 } },
       { id: "c", text: "说不考的，可能是烟雾弹。", delta: { MY: 2, EX: 1 } },
-      { id: "d", text: "TA 说“都很重要”，等于没说。", delta: { MY: 3, EX: 2 }, boost: { RIDDLE_SINGER: 2 } },
+      { id: "d", text: "TA 说“都很重要”，等于没说。", delta: { MY: 3, EX: 2 }, boost: { GOTHAM_RIDDLER: 2 } },
       {
         id: "e",
         text: "考前一句“这个不难”，然后全班沉没。",
@@ -214,7 +214,7 @@ export const QUESTIONS: Question[] = [
       { id: "a", text: "秒回且讲人话。", delta: { CA: 3 }, boost: { NINE_COLORED_DEER: 2 } },
       { id: "b", text: "会回，但像办公时间限定皮肤。", delta: { CA: 1 } },
       { id: "c", text: "三天后回一个“看课件”。", delta: { SL: 2, MY: 1 }, boost: { SQUIDWARD: 2 } },
-      { id: "d", text: "只回一个问号，你的人生也变成问号。", delta: { MY: 2, AU: 2 }, boost: { RIDDLE_SINGER: 2 } },
+      { id: "d", text: "只回一个问号，你的人生也变成问号。", delta: { MY: 2, AU: 2 }, boost: { GOTHAM_RIDDLER: 2 } },
       {
         id: "e",
         text: "回答像人机生成：很长，很完整，很没用。",
@@ -293,7 +293,7 @@ export const QUESTIONS: Question[] = [
       { id: "a", text: "“别怕，慢慢来。”", delta: { CA: 3 }, boost: { SPONGEBOB: 2 } },
       { id: "b", text: "“这个很重要。”", delta: { EX: 1, CT: 1 } },
       { id: "c", text: "“这个你们自己看。”", delta: { SL: 2, MY: 1 }, boost: { PATRICK: 2 } },
-      { id: "d", text: "“这个不难。”", delta: { MY: 2, EX: 2, AU: 1 }, boost: { RIDDLE_SINGER: 2 } },
+      { id: "d", text: "“这个不难。”", delta: { MY: 2, EX: 2, AU: 1 }, boost: { GOTHAM_RIDDLER: 2 } },
       { id: "e", text: "“我只讲一遍。”", delta: { CT: 3, AU: 3 }, boost: { ART_STUDENT: 3 } }
     ]
   },
@@ -371,7 +371,7 @@ export const QUESTIONS: Question[] = [
         id: "d",
         text: "每道题都是阅读理解 + 心理博弈。",
         delta: { EX: 3, MY: 3 },
-        boost: { RIDDLE_SINGER: 2 }
+        boost: { GOTHAM_RIDDLER: 2 }
       },
       {
         id: "e",
@@ -455,7 +455,7 @@ export const QUESTIONS: Question[] = [
         delta: { CT: 2, HW: 1, CA: 1 },
         boost: { SWEEPING_MONK: 4 }
       },
-      { id: "c", text: "TA 像谜语，但我尊重谜语。", delta: { MY: 3 }, boost: { RIDDLE_SINGER: 4 } },
+      { id: "c", text: "TA 像谜语，但我尊重谜语。", delta: { MY: 3 }, boost: { GOTHAM_RIDDLER: 4 } },
       {
         id: "d",
         text: "TA 把我训练成了 DDL 特种兵。",

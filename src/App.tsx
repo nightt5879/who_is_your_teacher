@@ -1,41 +1,60 @@
-import { ArrowLeft, ArrowRight, Clipboard, RotateCcw, Share2, Sparkles } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight, Clipboard, Github, RotateCcw, Share2, Sparkles, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { QUESTIONS } from "./data/questions";
-import { RESULT_COPY } from "./data/resultCopy";
 import { RESULTS } from "./data/results";
+import {
+  getQuestions,
+  getResultCopy,
+  REPO_URL,
+  UI_TEXT,
+  VISITOR_COUNT_BASE,
+  VISITOR_COUNT_KEY
+} from "./i18n";
 import { calculateQuizResult } from "./scoring";
-import type { Answer, QuizResult } from "./types";
+import type { QuizResult, ResultCopy } from "./types";
+import type { Language } from "./i18n";
 
 type Stage = "home" | "quiz" | "result";
 type ShareStatus = "idle" | "shared" | "copied" | "failed";
 
-const DEFAULT_ALIAS = "这位老师";
-
 function App() {
   const [stage, setStage] = useState<Stage>("home");
+  const [language, setLanguage] = useState<Language>("zh");
+  const [visitorCount, setVisitorCount] = useState(VISITOR_COUNT_BASE);
   const [alias, setAlias] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<QuizResult | null>(null);
   const [shareStatus, setShareStatus] = useState<ShareStatus>("idle");
+  const countedVisit = useRef(false);
 
-  const currentQuestion = QUESTIONS[currentIndex];
+  const ui = UI_TEXT[language];
+  const displayQuestions = getQuestions(language);
+  const resultCopy = getResultCopy(language);
+  const currentQuestion = displayQuestions[currentIndex];
   const answeredCount = Object.keys(answers).length;
   const progressPercent = Math.round((answeredCount / QUESTIONS.length) * 100);
-  const displayAlias = alias.trim() || DEFAULT_ALIAS;
-
-  const answerList = useMemo<Answer[]>(
-    () =>
-      QUESTIONS.map((question) => ({
-        questionId: question.id,
-        optionId: answers[question.id]
-      })).filter((answer): answer is Answer => Boolean(answer.optionId)),
-    [answers]
-  );
+  const displayAlias = alias.trim() || ui.defaultAlias;
+  const formattedVisitorCount = visitorCount.toLocaleString(language === "zh" ? "zh-CN" : "en-US");
 
   const selectedOption = currentQuestion ? answers[currentQuestion.id] : undefined;
   const canGoNext = Boolean(selectedOption);
   const isLastQuestion = currentIndex === QUESTIONS.length - 1;
+
+  useEffect(() => {
+    if (countedVisit.current) return;
+    countedVisit.current = true;
+
+    try {
+      const stored = Number.parseInt(window.localStorage.getItem(VISITOR_COUNT_KEY) ?? "", 10);
+      const current = Number.isFinite(stored) ? Math.max(stored, VISITOR_COUNT_BASE) : VISITOR_COUNT_BASE;
+      const next = current + 1;
+      window.localStorage.setItem(VISITOR_COUNT_KEY, String(next));
+      setVisitorCount(next);
+    } catch {
+      setVisitorCount(VISITOR_COUNT_BASE + 1);
+    }
+  }, []);
 
   function startQuiz() {
     setAnswers({});
@@ -92,14 +111,17 @@ function App() {
   async function shareResult() {
     if (!result) return;
 
-    const copy = RESULT_COPY[result.finalResult.code];
-    const shareText = `${displayAlias} 最像：${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n本测试纯属娱乐。`;
+    const copy = resultCopy[result.finalResult.code];
+    const shareText =
+      language === "zh"
+        ? `${displayAlias} 最像：${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}`
+        : `${displayAlias} is most like: ${copy.name}\n${copy.oneLiner}\n${copy.damageIndex}\n${ui.entertainmentLine}`;
     const shareUrl = window.location.href;
 
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "你老师最像谁？",
+          title: ui.shareTitle,
           text: shareText,
           url: shareUrl
         });
@@ -119,38 +141,56 @@ function App() {
       <div className="background-grid" />
       <section className="app-frame" aria-live="polite">
         <header className="topbar">
-          <button className="brand-button" type="button" onClick={restart} aria-label="返回首页">
-            <span className="brand-mark">师</span>
-            <span>你老师最像谁？</span>
+          <button className="brand-button" type="button" onClick={restart} aria-label={ui.homeAria}>
+            <span className="brand-mark">{ui.brandMark}</span>
+            <span>{ui.appName}</span>
           </button>
-          <span className="topbar-note">纯娱乐测试</span>
+          <div className="topbar-actions">
+            <div className="language-toggle" aria-label="Language">
+              <button className={language === "zh" ? "active" : ""} type="button" onClick={() => setLanguage("zh")}>
+                {ui.languageZh}
+              </button>
+              <button className={language === "en" ? "active" : ""} type="button" onClick={() => setLanguage("en")}>
+                {ui.languageEn}
+              </button>
+            </div>
+            <span className="topbar-note">{ui.topbarNote}</span>
+          </div>
         </header>
 
         {stage === "home" && (
           <section className="home-screen">
             <div className="hero-copy">
-              <p className="eyebrow">Who Is Your Teacher</p>
-              <h1>把老师代号放进来，看看 TA 会刷出哪张角色卡。</h1>
+              <p className="eyebrow">{ui.eyebrow}</p>
+              <h1>{ui.heroTitle}</h1>
+              <div className="visitor-meter" aria-label={language === "zh" ? "参与人数" : "Participant count"}>
+                <Users aria-hidden="true" size={19} />
+                <span>
+                  {ui.playedPrefix && `${ui.playedPrefix} `}
+                  <strong>{formattedVisitorCount}</strong>
+                  {` ${ui.playedSuffix}`}
+                </span>
+              </div>
               <div className="hero-tags" aria-label="测试信息">
-                <span>24 题</span>
-                <span>23 结果</span>
-                <span>本地计算</span>
+                <span>{ui.tagQuestions}</span>
+                <span>{ui.tagResults}</span>
+                <span>{ui.tagLocal}</span>
               </div>
             </div>
 
             <div className="alias-panel">
-              <label htmlFor="teacher-alias">老师代号 / 外号</label>
+              <label htmlFor="teacher-alias">{ui.aliasLabel}</label>
               <input
                 id="teacher-alias"
                 type="text"
                 value={alias}
                 maxLength={18}
-                placeholder="例如：高数王者"
+                placeholder={ui.aliasPlaceholder}
                 onChange={(event) => setAlias(event.target.value)}
               />
               <button className="primary-action" type="button" onClick={startQuiz}>
                 <Sparkles aria-hidden="true" size={18} />
-                开始测试
+                {ui.start}
               </button>
             </div>
           </section>
@@ -194,10 +234,10 @@ function App() {
             <div className="quiz-actions">
               <button className="secondary-action" type="button" onClick={goBack} disabled={currentIndex === 0}>
                 <ArrowLeft aria-hidden="true" size={18} />
-                上一题
+                {ui.previous}
               </button>
               <button className="primary-action" type="button" onClick={goNext} disabled={!canGoNext}>
-                {isLastQuestion ? "看结果" : "下一题"}
+                {isLastQuestion ? ui.resultButton : ui.next}
                 <ArrowRight aria-hidden="true" size={18} />
               </button>
             </div>
@@ -207,7 +247,9 @@ function App() {
         {stage === "result" && result && (
           <ResultScreen
             alias={displayAlias}
-            result={result}
+            language={language}
+            copy={resultCopy[result.finalResult.code]}
+            ui={ui}
             shareStatus={shareStatus}
             onShare={shareResult}
             onRestart={restart}
@@ -220,15 +262,15 @@ function App() {
 
 type ResultScreenProps = {
   alias: string;
-  result: QuizResult;
+  language: Language;
+  copy: ResultCopy;
+  ui: (typeof UI_TEXT)[Language];
   shareStatus: ShareStatus;
   onShare: () => void;
   onRestart: () => void;
 };
 
-function ResultScreen({ alias, result, shareStatus, onShare, onRestart }: ResultScreenProps) {
-  const copy = RESULT_COPY[result.finalResult.code];
-
+function ResultScreen({ alias, language, copy, ui, shareStatus, onShare, onRestart }: ResultScreenProps) {
   return (
     <section className="result-screen">
       <div className="result-card">
@@ -236,7 +278,9 @@ function ResultScreen({ alias, result, shareStatus, onShare, onRestart }: Result
           {copy.visual}
         </div>
         <div className="result-copy">
-          <p className="eyebrow">{alias} 最像</p>
+          <p className="eyebrow">
+            {language === "zh" ? `${alias} ${ui.resultPrefix}` : `${alias} ${ui.resultPrefix}`}
+          </p>
           <h1>{copy.name}</h1>
           <p className="subtitle">{copy.subtitle}</p>
           <p className="one-liner">{copy.oneLiner}</p>
@@ -245,15 +289,15 @@ function ResultScreen({ alias, result, shareStatus, onShare, onRestart }: Result
 
       <div className="result-details">
         <article>
-          <span>精神损伤指数</span>
+          <span>{ui.damageTitle}</span>
           <p>{copy.damageIndex}</p>
         </article>
         <article>
-          <span>老师名言</span>
+          <span>{ui.quoteTitle}</span>
           <p>“{copy.teacherQuote}”</p>
         </article>
         <article>
-          <span>生存攻略</span>
+          <span>{ui.guideTitle}</span>
           <p>{copy.survivalGuide}</p>
         </article>
       </div>
@@ -266,26 +310,35 @@ function ResultScreen({ alias, result, shareStatus, onShare, onRestart }: Result
 
       <div className="share-card">
         <div>
-          <span>分享卡预览</span>
+          <span>{ui.sharePreview}</span>
           <strong>
-            {alias} 最像：{copy.name}
+            {language === "zh" ? `${alias} 最像：${copy.name}` : `${alias} is most like: ${copy.name}`}
           </strong>
           <p>{copy.damageIndex}</p>
         </div>
         <button className="secondary-action" type="button" onClick={onShare}>
           {shareStatus === "copied" ? <Clipboard aria-hidden="true" size={18} /> : <Share2 aria-hidden="true" size={18} />}
-          {shareStatus === "shared" && "已分享"}
-          {shareStatus === "copied" && "已复制"}
-          {shareStatus === "failed" && "复制失败"}
-          {shareStatus === "idle" && "分享"}
+          {shareStatus === "shared" && ui.shared}
+          {shareStatus === "copied" && ui.copied}
+          {shareStatus === "failed" && ui.copyFailed}
+          {shareStatus === "idle" && ui.share}
         </button>
       </div>
 
-      <p className="disclaimer">本测试纯属娱乐，不构成对任何现实人物的评价。不要输入真实姓名，不上传照片或个人数据。</p>
+      <a className="github-card" href={REPO_URL} target="_blank" rel="noreferrer">
+        <Github aria-hidden="true" size={28} />
+        <span>
+          <strong>{ui.githubTitle}</strong>
+          <small>{ui.githubText}</small>
+        </span>
+        <em>{ui.githubAction}</em>
+      </a>
+
+      <p className="disclaimer">{ui.disclaimer}</p>
 
       <button className="primary-action restart-button" type="button" onClick={onRestart}>
         <RotateCcw aria-hidden="true" size={18} />
-        再测一次
+        {ui.restart}
       </button>
     </section>
   );

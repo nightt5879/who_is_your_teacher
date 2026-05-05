@@ -1,4 +1,4 @@
-import type { ResultCode, ResultCopy } from "../types";
+﻿import type { ResultCode, ResultCopy } from "../types";
 
 export const RESULT_COPY: Record<ResultCode, ResultCopy> = {
   KHRUSHCHEV: {
@@ -67,11 +67,11 @@ export const RESULT_COPY: Record<ResultCode, ResultCopy> = {
     tags: ["项目副本", "欢乐高压", "不可预测"],
     visual: "副"
   },
-  RIDDLE_SINGER: {
-    code: "RIDDLE_SINGER",
-    name: "歌坛谜语人",
+  GOTHAM_RIDDLER: {
+    code: "GOTHAM_RIDDLER",
+    name: "哥谭谜语人",
     subtitle: "每句话都像暗号",
-    oneLiner: "TA 不是不讲重点，TA 是把重点藏进旋律里。",
+    oneLiner: "TA 不是不讲重点，TA 是把重点藏进谜面里。",
     damageIndex: "谜语浓度 100 / 暗示准确率 22 / 玄学尊重 89",
     teacherQuote: "这个地方你们要自己体会。",
     survivalGuide: "课后立刻和同学对答案，把模糊表达翻译成行动项。别独自解谜。",

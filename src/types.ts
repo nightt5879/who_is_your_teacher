@@ -1,4 +1,4 @@
-export const DIMENSIONS = ["HW", "CT", "EX", "CH", "MY", "SL", "CA", "AU"] as const;
+﻿export const DIMENSIONS = ["HW", "CT", "EX", "CH", "MY", "SL", "CA", "AU"] as const;
 
 export type Dimension = (typeof DIMENSIONS)[number];
 
@@ -9,7 +9,7 @@ export const RESULT_CODES = [
   "PATRICK",
   "THANOS",
   "BUU",
-  "RIDDLE_SINGER",
+  "GOTHAM_RIDDLER",
   "RONG",
   "HOLMES",
   "KONGMING",

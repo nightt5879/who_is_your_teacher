@@ -66,6 +66,7 @@ button:disabled {
 .topbar,
 .quiz-actions,
 .share-card,
+.github-card,
 .progress-meta {
   display: flex;
   align-items: center;
@@ -77,6 +78,13 @@ button:disabled {
   min-height: 48px;
   padding-bottom: 22px;
   border-bottom: 2px solid #18181b;
+}
+
+.topbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
 }
 
 .brand-button {
@@ -120,6 +128,33 @@ button:disabled {
   background: #d9f99d;
 }
 
+.language-toggle {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid #18181b;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.language-toggle button {
+  min-height: 36px;
+  border: 0;
+  border-right: 2px solid #18181b;
+  background: #ffffff;
+  color: #18181b;
+  padding: 0 10px;
+  font-weight: 900;
+}
+
+.language-toggle button:last-child {
+  border-right: 0;
+}
+
+.language-toggle button.active {
+  background: #ffcf2e;
+}
+
 .home-screen {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
@@ -154,6 +189,25 @@ button:disabled {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 28px;
+}
+
+.visitor-meter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 24px;
+  padding: 9px 12px;
+  border: 2px solid #18181b;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 4px 4px 0 #a78bfa;
+  font-weight: 900;
+}
+
+.visitor-meter strong {
+  color: #dc2626;
+  font-size: 22px;
 }
 
 .hero-tags span,
@@ -413,6 +467,40 @@ button:disabled {
   font-size: 20px;
 }
 
+.github-card {
+  width: 100%;
+  padding: 16px 18px;
+  border: 2px solid #18181b;
+  border-radius: 8px;
+  background: #18181b;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.github-card span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.github-card strong {
+  font-size: 18px;
+}
+
+.github-card small {
+  color: #e5e7eb;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.github-card em {
+  flex: 0 0 auto;
+  color: #ffcf2e;
+  font-style: normal;
+  font-weight: 900;
+}
+
 .disclaimer {
   margin: 0;
   color: #52525b;
@@ -437,6 +525,8 @@ button:disabled {
   }
 
   .topbar {
+    align-items: flex-start;
+    gap: 12px;
     padding-bottom: 16px;
   }
 
@@ -444,8 +534,15 @@ button:disabled {
     font-size: 16px;
   }
 
+  .topbar-actions {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .topbar-note {
-    display: none;
+    padding: 6px 8px;
+    font-size: 12px;
   }
 
   .home-screen {
@@ -510,6 +607,11 @@ button:disabled {
     flex-direction: column;
   }
 
+  .github-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .share-card .secondary-action,
   .restart-button {
     width: 100%;
@@ -525,6 +627,12 @@ button:disabled {
   .brand-mark {
     width: 34px;
     height: 34px;
+  }
+
+  .language-toggle button {
+    min-height: 34px;
+    padding: 0 8px;
+    font-size: 12px;
   }
 
   .hero-copy h1,
