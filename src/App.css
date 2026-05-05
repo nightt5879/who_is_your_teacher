@@ -2299,14 +2299,37 @@ button:disabled {
   }
 
   .result-radar-float {
-    top: 35%;
-    right: 10px;
-    width: min(42vw, 172px);
+    z-index: 6;
+    top: clamp(250px, 32svh, 310px);
+    right: 8px;
+    width: clamp(136px, 39vw, 168px);
+    padding: 5px 4px 2px;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 50% 46%, color-mix(in srgb, var(--scene-glow) 16%, transparent), transparent 64%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.08));
+    box-shadow:
+      0 0 24px color-mix(in srgb, var(--scene-glow) 18%, transparent),
+      0 14px 28px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px) saturate(1.08);
   }
 
   .radar-float-label {
-    margin-bottom: -8px;
+    margin-bottom: -10px;
     font-size: 10px;
+  }
+
+  .result-radar-float .dimension-radar {
+    width: 100%;
+    max-width: 168px;
+  }
+
+  .result-radar-float .radar-label {
+    font-size: 10px;
+  }
+
+  .result-radar-float .radar-value {
+    font-size: 9px;
   }
 
   .result-scores-float {
@@ -2498,6 +2521,50 @@ button:disabled {
 
   .result-scene.is-art-view .result-title-float .result-scene-tags {
     margin-top: 2px;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 760px) {
+  .result-radar-float {
+    top: clamp(218px, 29svh, 256px);
+    width: clamp(118px, 34vw, 142px);
+    padding: 4px 3px 1px;
+  }
+
+  .result-radar-float .dimension-radar {
+    max-width: 142px;
+  }
+
+  .radar-float-label {
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+
+  .result-detail-float {
+    bottom: 258px;
+  }
+
+  .result-scores-float {
+    bottom: 132px;
+  }
+}
+
+@media (max-width: 370px) {
+  .result-radar-float {
+    right: 6px;
+    width: clamp(112px, 33vw, 128px);
+  }
+
+  .result-radar-float .dimension-radar {
+    max-width: 128px;
+  }
+
+  .result-radar-float .radar-label {
+    font-size: 9px;
+  }
+
+  .result-radar-float .radar-value {
+    font-size: 8px;
   }
 }
 
