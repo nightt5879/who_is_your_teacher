@@ -2168,6 +2168,77 @@ button:disabled {
     overflow: hidden;
   }
 
+  .result-scene-backdrop {
+    transition:
+      opacity 680ms ease,
+      filter 680ms ease,
+      transform 720ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      background-position 720ms cubic-bezier(0.2, 0.86, 0.24, 1);
+  }
+
+  .result-scene-main-art img {
+    will-change: transform, object-position, filter;
+    transition:
+      transform 720ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      object-position 720ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      filter 680ms ease,
+      opacity 520ms ease;
+  }
+
+  .result-scene-vignette {
+    transition:
+      opacity 620ms ease,
+      background 620ms ease;
+  }
+
+  .result-title-float {
+    will-change: transform, opacity, filter;
+    transition:
+      top 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      width 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      opacity 420ms ease,
+      transform 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      filter 640ms ease;
+  }
+
+  .result-title-float .result-scene-header {
+    transition:
+      width 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      gap 520ms ease;
+  }
+
+  .result-title-float .result-title-row h1 {
+    transition:
+      font-size 640ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      text-shadow 520ms ease;
+  }
+
+  .result-title-float .result-scene-line,
+  .result-title-float .result-scene-tags {
+    max-height: 120px;
+    opacity: 1;
+    overflow: hidden;
+    transform: translateY(0);
+    transition:
+      max-height 360ms ease,
+      opacity 260ms ease,
+      margin 360ms ease,
+      transform 360ms ease;
+  }
+
+  .result-radar-float,
+  .result-scores-float,
+  .result-detail-float,
+  .result-actions-float,
+  .hidden-unlock-banner {
+    will-change: transform, opacity, filter;
+    transition:
+      opacity 360ms 150ms ease,
+      transform 520ms 120ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      filter 360ms 120ms ease,
+      visibility 0s linear 0s;
+  }
+
   .art-mode-hint {
     position: fixed;
     z-index: 7;
@@ -2193,6 +2264,12 @@ button:disabled {
     opacity: 0;
     backdrop-filter: blur(14px) saturate(1.1);
     animation: revealUp 560ms 1500ms ease both;
+    transition:
+      opacity 320ms ease,
+      transform 420ms cubic-bezier(0.2, 0.86, 0.24, 1),
+      border-color 320ms ease,
+      background 320ms ease,
+      color 320ms ease;
   }
 
   .result-title-float {
@@ -2357,6 +2434,9 @@ button:disabled {
     object-fit: contain;
     object-position: center center;
     transform: none;
+    filter:
+      drop-shadow(0 26px 48px rgba(0, 0, 0, 0.34))
+      saturate(1.04);
   }
 
   .result-scene.is-art-view .result-scene-vignette {
@@ -2373,6 +2453,7 @@ button:disabled {
     color: var(--scene-text);
     opacity: 1;
     animation: none;
+    transform: translateY(0);
   }
 
   .result-scene.is-art-view .result-radar-float,
@@ -2383,11 +2464,20 @@ button:disabled {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+    transform: translateY(18px) scale(0.96);
+    filter: blur(5px);
+    transition:
+      opacity 260ms ease,
+      transform 360ms cubic-bezier(0.42, 0, 0.4, 1),
+      filter 260ms ease,
+      visibility 0s linear 300ms;
   }
 
   .result-scene.is-art-view .result-title-float {
     top: max(42px, calc(env(safe-area-inset-top) + 24px));
     width: calc(100% - 28px);
+    transform: translateY(-4px);
+    filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.48));
   }
 
   .result-scene.is-art-view .result-title-float .result-scene-header {
@@ -2400,10 +2490,32 @@ button:disabled {
   }
 
   .result-scene.is-art-view .result-title-float .result-scene-line {
-    display: none;
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(-6px);
   }
 
   .result-scene.is-art-view .result-title-float .result-scene-tags {
     margin-top: 2px;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .result-scene-backdrop,
+  .result-scene-main-art img,
+  .result-scene-vignette,
+  .result-title-float,
+  .result-title-float .result-scene-header,
+  .result-title-float .result-title-row h1,
+  .result-title-float .result-scene-line,
+  .result-title-float .result-scene-tags,
+  .result-radar-float,
+  .result-scores-float,
+  .result-detail-float,
+  .result-actions-float,
+  .hidden-unlock-banner,
+  .art-mode-hint {
+    transition: none;
   }
 }
