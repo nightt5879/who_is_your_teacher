@@ -49,6 +49,7 @@ function App() {
   const progressPercent = Math.round((answeredCount / QUESTIONS.length) * 100);
   const displayAlias = alias.trim() || ui.defaultAlias;
   const formattedVisitorCount = visitorCount.toLocaleString(language === "zh" ? "zh-CN" : "en-US");
+  const showTopbarActions = stage === "home";
 
   const selectedOption = currentQuestion ? answers[currentQuestion.id] : undefined;
   const canGoNext = Boolean(selectedOption);
@@ -100,6 +101,13 @@ function App() {
 
     return () => window.clearTimeout(timer);
   }, [result, stage]);
+
+  useEffect(() => {
+    if (stage !== "quiz") return;
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0 });
+    });
+  }, [currentIndex, stage]);
 
   function startQuiz() {
     setAnswers({});
@@ -161,17 +169,19 @@ function App() {
               <span className="brand-mark">{ui.brandMark}</span>
               <span>{ui.appName}</span>
             </button>
-            <div className="topbar-actions">
-              <div className="language-toggle" aria-label="Language">
-                <button className={language === "zh" ? "active" : ""} type="button" onClick={() => setLanguage("zh")}>
-                  {ui.languageZh}
-                </button>
-                <button className={language === "en" ? "active" : ""} type="button" onClick={() => setLanguage("en")}>
-                  {ui.languageEn}
-                </button>
+            {showTopbarActions && (
+              <div className="topbar-actions">
+                <div className="language-toggle" aria-label="Language">
+                  <button className={language === "zh" ? "active" : ""} type="button" onClick={() => setLanguage("zh")}>
+                    {ui.languageZh}
+                  </button>
+                  <button className={language === "en" ? "active" : ""} type="button" onClick={() => setLanguage("en")}>
+                    {ui.languageEn}
+                  </button>
+                </div>
+                <span className="topbar-note">{ui.topbarNote}</span>
               </div>
-              <span className="topbar-note">{ui.topbarNote}</span>
-            </div>
+            )}
           </header>
         )}
 
